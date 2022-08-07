@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/eventForm.css"></link>
+    <script src="./model/formEvent.js" defer type="module"></script>
+    <title>Formulaire Evénement</title>
+</head>
+<body>
+    <form id="eventForm">
+        <label for="date_deb">Date de début</label>
+        <input type="datetime-local" id="date_deb" required="required" max="9999-12-31T24:59">
+
+        <label for="date_fin">Date de fin</label>
+        <input type="datetime-local" id="date_fin" required="required" max="9999-12-31T24:59">
+
+        <label for="titre">Titre</label>
+        <input type="text" id="titre">
+
+        <label for="location">Location</label>
+        <input type="text" id="location" required="required">
+
+        <label for="categorie">Categorie</label>
+        <input type="text" id="categorie" required="required">
+
+        <label for="statut">Statut</label>
+        <input type="text" id="statut" required="required">
+
+        <label for="description">Description</label>
+        <input type="text" id="description" required="required">
+
+        <label for="transparence">Transparence</label>
+        <input type="text" id="transparence" required="required">
+
+        <button type="button" id="submit">Modifier</button>
+    </form>
+    
+</body>
+</html>

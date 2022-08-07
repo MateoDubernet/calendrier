@@ -1,0 +1,15 @@
+#eventForm{
+    display: flex;
+    flex-direction: column;
+    width: 22%;
+    margin-left: 1%;
+}
+
+#eventForm > input{
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+#submit{
+    width: 50%;
+}

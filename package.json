@@ -1,0 +1,19 @@
+{
+  "name": "calendrier",
+  "version": "1.0.0",
+  "description": "page qui affiche le calendrier mois par mois",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "tsc && electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.0.0"
+  },
+  "dependencies": {
+    "@syncfusion/ej2-schedule": "^20.2.40",
+    "mysql2": "^2.3.3"
+  }
+}

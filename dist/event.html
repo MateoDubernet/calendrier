@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/styles.css"></link>
+    <script src="./model/singleEvent.js" defer type="module"></script>
+    
+    <title>Evénement</title>
+</head>
+<body>
+    <table border="2" id="event">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>date_deb</th>
+                <th>date_fin</th>
+                <th>titre</th>
+                <th>location</th>
+                <th>categorie</th>
+                <th>statut</th>
+                <th>description</th>
+                <th>transparence</th>
+                <th>nbMaj</th>
+            </tr>
+        </thead>
+        <tbody id="soloEvent"></tbody>
+    </table>
+    <button id="modifButton">Modifier</button>
+    <button id="suppButton">Supprimer</button>
+</body>
+</html>
