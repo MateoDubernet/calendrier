@@ -1,0 +1,79 @@
+const { ipcRenderer } = require("electron");
+import { addEvent, editEventById } from "../database/database.js";
+import { refreshCalendar } from "../utils/utils.js";
+const date_deb = document.getElementById('date_deb');
+const date_fin = document.getElementById('date_fin');
+const titre = document.getElementById('titre');
+const localisation = document.getElementById('localisation');
+const categorie = document.getElementById('categorie');
+const statut = document.getElementById('statut');
+const description = document.getElementById('description');
+const submit = document.getElementById('submit');
+let formValue;
+function setFormValue(eventDatas) {
+    for (let i in eventDatas) {
+        titre.value = eventDatas[i].titre;
+        localisation.value = eventDatas[i].localisation;
+        categorie.value = eventDatas[i].categorie;
+        statut.value = eventDatas[i].statut;
+        description.value = eventDatas[i].description;
+        formValue = eventDatas[i];
+    }
+}
+function editEvent() {
+    if (submit) {
+        submit.addEventListener('click', (clickEvent) => {
+            let form = document.getElementById('eventForm');
+            if (form.checkValidity() == true) {
+                formValue.date_deb = new Date(date_deb.value);
+                formValue.date_fin = new Date(date_fin.value);
+                formValue.titre = titre.value;
+                formValue.localisation = localisation.value;
+                formValue.categorie = categorie.value;
+                formValue.statut = statut.value;
+                formValue.description = description.value;
+                formValue.nbMaj = formValue.nbMaj + 1;
+                editEventById(formValue).then(() => {
+                    refreshCalendar(clickEvent, true);
+                }).catch(err => {
+                    throw new Error(err.message);
+                });
+            }
+        });
+    }
+}
+function addNewEvent() {
+    if (submit) {
+        submit.addEventListener('click', (clickEvent) => {
+            let form = document.getElementById('eventForm');
+            if (form.checkValidity() == true) {
+                formValue = {
+                    "date_deb": new Date(date_deb.value),
+                    "date_fin": new Date(date_fin.value),
+                    "titre": titre.value,
+                    "localisation": localisation.value,
+                    "categorie": categorie.value,
+                    "statut": statut.value,
+                    "description": description.value,
+                    "nbMaj": 0,
+                };
+                addEvent(formValue).then(() => {
+                    refreshCalendar(clickEvent, false);
+                }).catch(err => {
+                    throw new Error(err.message);
+                });
+            }
+        });
+    }
+}
+ipcRenderer.on('activate', (event, events) => {
+    if (events && events.length > 0) {
+        setFormValue(events);
+        console.log(events);
+        editEvent();
+    }
+    else {
+        addNewEvent();
+    }
+});
+//# sourceMappingURL=eventForm.js.map

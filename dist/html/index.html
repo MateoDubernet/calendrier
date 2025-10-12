@@ -6,11 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Calendrier</title>
 
-        <!-- Style principal -->
         <link rel="stylesheet" href="../styles/index.css" />
-
-        <!-- Script principal -->
-        <script src="../renderer.js" defer type="module"></script>
+        <script src="../interfaces/renderer.js" defer type="module"></script>
     </head>
 
     <body>
@@ -22,8 +19,9 @@
                     <!-- Le JS ajoutera ici .selectDate (mois/année + flèches) -->
                 </header>
 
-                <!-- Corps du calendrier (généré dynamiquement via JS) -->
-                <div id="calendarBody"></div>
+                <div id="calendarBody">
+                    <!-- Généré via JS -->
+                </div>
             </section>
 
             <!-- ================= TABLEAU DES ÉVÉNEMENTS ================= -->
@@ -46,8 +44,8 @@
                                 <th>Info</th>
                             </tr>
                         </thead>
-                        <tbody id="result">
-                            <!-- Lignes générées par JS -->
+                        <tbody id="event-list">
+                            <!-- Lignes générées via JS -->
                         </tbody>
                     </table>
                 </div>

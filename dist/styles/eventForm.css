@@ -1,4 +1,3 @@
-/* ========== RESET ========== */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +5,6 @@
     font-family: "Poppins", sans-serif;
 }
 
-/* ========== GLOBAL ========== */
 body {
     background: linear-gradient(135deg, #4b6cb7, #182848);
     min-height: 100vh;
@@ -18,7 +16,6 @@ body {
     padding: 20px;
 }
 
-/* ========== TITRE ========== */
 h1 {
     color: #fff;
     font-size: 2rem;
@@ -41,15 +38,13 @@ form {
     animation: fadeIn 0.8s ease-in-out;
 }
 
-/* ========== CHAMPS DU FORMULAIRE ========== */
 form label {
     font-weight: 600;
     margin-bottom: 6px;
     color: #444;
 }
 
-form input,
-form textarea {
+form input, form textarea {
     padding: 10px 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -58,20 +53,17 @@ form textarea {
     margin-bottom: 15px;
 }
 
-form input:focus,
-form textarea:focus {
+form input:focus, form textarea:focus {
     border-color: #4b6cb7;
     box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
     outline: none;
 }
 
-/* ========== TEXTAREA ========== */
 form textarea {
     resize: vertical;
     min-height: 80px;
 }
 
-/* ========== BOUTON ========== */
 button {
     background: #4b6cb7;
     color: #fff;
@@ -89,15 +81,4 @@ button {
 button:hover {
     background: #182848;
     transform: translateY(-2px);
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 600px) {
-    form {
-        padding: 25px 30px;
-    }
-
-    h1 {
-        font-size: 1.6rem;
-    }
 }

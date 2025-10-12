@@ -1,39 +1,36 @@
-import { Events } from "../model/event.js";
 const mysql = require('mysql2');
-
 let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
     database: 'calendrier'
 });
-
 export async function getAllEvents() {
-    return new Promise<Events[]>((result, rej) => {
-        connection.query('SELECT * FROM event',(error: Error, respons: Events[]) => {
-            if (error){
-                rej(error);
-            } else {
-                result(respons);
-            }
-        });
-    });
-}
-
-export function getEventById(id: number) {
-    return new Promise<Events[]>((result, rej) => {
-        connection.query("SELECT * FROM event WHERE id="+[id], (error: Error, respons: Events[]) => {
+    return new Promise((result, rej) => {
+        connection.query('SELECT * FROM event', (error, respons) => {
             if (error) {
                 rej(error);
-            } else {
+            }
+            else {
                 result(respons);
             }
         });
     });
 }
-
-export function editEventById(editEvent: Events) {
-    return new Promise<Events[]>((result, rej) => {
+export function getEventById(id) {
+    return new Promise((result, rej) => {
+        connection.query("SELECT * FROM event WHERE id=" + [id], (error, respons) => {
+            if (error) {
+                rej(error);
+            }
+            else {
+                result(respons);
+            }
+        });
+    });
+}
+export function editEventById(editEvent) {
+    return new Promise((result, rej) => {
         connection.query("UPDATE event SET date_deb=?,date_fin=?,titre=?,localisation=?,categorie=?,statut=?,description=?,nbMaj=? WHERE id=?", [
             editEvent.date_deb,
             editEvent.date_fin,
@@ -43,19 +40,20 @@ export function editEventById(editEvent: Events) {
             editEvent.statut,
             editEvent.description,
             editEvent.nbMaj,
-            editEvent.id], (error: Error, respons: Events[]) => {
+            editEvent.id
+        ], (error, respons) => {
             if (error) {
                 rej(error);
-            } else {
+            }
+            else {
                 result(respons);
                 console.log(respons);
             }
         });
     });
 }
-
-export async function addEvent(addEvent: Events) {
-    return new Promise<Events[]>((result, rej) => {
+export async function addEvent(addEvent) {
+    return new Promise((result, rej) => {
         connection.query("INSERT INTO event (date_deb, date_fin, titre, localisation, categorie, statut, description, nbMaj) VALUES (?,?,?,?,?,?,?,?)", [
             addEvent.date_deb,
             addEvent.date_fin,
@@ -64,25 +62,27 @@ export async function addEvent(addEvent: Events) {
             addEvent.categorie,
             addEvent.statut,
             addEvent.description,
-            addEvent.nbMaj], (error: Error, respons: Events[]) => {
+            addEvent.nbMaj
+        ], (error, respons) => {
             if (error) {
                 rej(error);
-            } else {
+            }
+            else {
                 result(respons);
             }
         });
     });
 }
-
-export function deleteEvent(id: number) {
-    return new Promise<Events[]>((result, rej) => {
-        connection.query("DELETE FROM event WHERE id=?", [id],(error: Error, respons: Events[]) => {
+export function deleteEvent(id) {
+    return new Promise((result, rej) => {
+        connection.query("DELETE FROM event WHERE id=?", [id], (error, respons) => {
             if (error) {
                 rej(error);
-                
-            } else {
+            }
+            else {
                 result(respons);
             }
         });
     });
 }
+//# sourceMappingURL=database.js.map

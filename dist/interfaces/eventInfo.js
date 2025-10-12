@@ -1,30 +1,24 @@
-import { Events } from "../model/event.js";
 import { getEventById } from "../database/database.js";
 import { deleteEvent } from '../database/database.js';
 import { formatDateFR, refreshCalendar } from "../utils/utils.js";
 const { ipcRenderer } = require("electron");
-
 const soloEvent = document.getElementById('soloEvent');
 const modifButton = document.getElementById('modifButton');
 const suppButton = document.getElementById('suppButton');
-
-let events: Events[] = [];
-let eventId: number;
-
-ipcRenderer.on('activate', (event: Event, id: number) => {
+let events = [];
+let eventId;
+ipcRenderer.on('activate', (event, id) => {
     eventId = id;
     displayEvent();
-})
-
+});
 export function displayEvent() {
-    getEventById(eventId).then((data: Events[]) => {
+    getEventById(eventId).then((data) => {
         events = data;
         if (soloEvent && events.length > 0) {
             const event = events[0];
             soloEvent.innerHTML = "";
-
             const fields = [
-                ["Id", event.id? event.id.toString() : ""],
+                ["Id", event.id ? event.id.toString() : ""],
                 ["Date début", formatDateFR(event.date_deb)],
                 ["Date fin", formatDateFR(event.date_fin)],
                 ["Titre", event.titre],
@@ -34,15 +28,12 @@ export function displayEvent() {
                 ["Description", event.description],
                 ["Nb Maj", event.nbMaj.toString()],
             ];
-
             fields.forEach(([label, value]) => {
                 const row = document.createElement("tr");
                 const cellLabel = document.createElement("td");
                 const cellValue = document.createElement("td");
-
                 cellLabel.innerHTML = label;
                 cellValue.innerHTML = value;
-
                 row.appendChild(cellLabel);
                 row.appendChild(cellValue);
                 soloEvent.appendChild(row);
@@ -50,18 +41,16 @@ export function displayEvent() {
         }
     });
 }
-
 function openForm() {
     if (modifButton) {
-        modifButton.addEventListener('click', (clickEvent) => {            
+        modifButton.addEventListener('click', (clickEvent) => {
             clickEvent.preventDefault();
             ipcRenderer.send('formWindow', events);
         });
     }
 }
-
 function deleteSelectEvent() {
-    if(suppButton) {
+    if (suppButton) {
         suppButton.addEventListener('click', (clickEvent) => {
             if (window.confirm("Voulez vous vraiment supprimer l'événement ?")) {
                 deleteEvent(eventId).then(() => {
@@ -73,6 +62,6 @@ function deleteSelectEvent() {
         });
     }
 }
-
 openForm();
 deleteSelectEvent();
+//# sourceMappingURL=eventInfo.js.map

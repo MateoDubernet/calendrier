@@ -1,4 +1,3 @@
-/* ========== BASE ========== */
 * {
     margin: 0;
     padding: 0;
@@ -34,7 +33,6 @@ html, body {
     flex-direction: column;
 }
 
-/* --- HEADER DU CALENDRIER --- */
 #calendarHeader {
     background: linear-gradient(135deg, #4b6cb7, #182848);
     color: white;
@@ -49,7 +47,6 @@ html, body {
     font-weight: 600;
 }
 
-/* --- Sélecteur de mois/année --- */
 .selectDate {
     display: flex;
     align-items: center;
@@ -81,7 +78,6 @@ html, body {
     transform: scale(1.05);
 }
 
-/* --- CORPS DU CALENDRIER --- */
 #calendarBody {
     flex: 1;
     display: grid;
@@ -92,7 +88,6 @@ html, body {
     overflow: auto;
 }
 
-/* --- Cases du calendrier --- */
 .caseActive, .caseInactive {
     border-radius: 6px;
     padding: 4px;
@@ -103,7 +98,6 @@ html, body {
     font-size: 0.8rem;
 }
 
-/* Cases actives */
 .caseActive {
     background: #f9fbff;
     border: 1px solid #dce3f0;
@@ -115,14 +109,12 @@ html, body {
     transform: scale(1.03);
 }
 
-/* Cases grises (autres mois) */
 .caseInactive {
     background: #f2f2f2;
     border: 1px solid #e0e0e0;
     color: #aaa;
 }
 
-/* --- Jour actuel --- */
 .caseActive.today {
     background: #c6d6ff;
     border: 2px solid #4b6cb7;
@@ -140,7 +132,6 @@ html, body {
     border-radius: 50%;
 }
 
-/* --- Événements dans les cases --- */
 .eventDébut, .eventFinSet {
     width: 100%;
     font-size: 0.7rem;
@@ -152,19 +143,16 @@ html, body {
     transition: background 0.2s ease;
 }
 
-/* Début d'événement */
 .eventDébut {
     background: #b0d4ff;
     color: #0f2f5d;
 }
 
-/* Fin d'événement */
 .eventFinSet {
     background: #ffd1a4;
     color: #5a2900;
 }
 
-/* Hover sur événements */
 .eventDébut:hover,
 .eventFinSet:hover {
     filter: brightness(0.95);
@@ -191,22 +179,19 @@ html, body {
     font-weight: 500;
 }
 
-/* Wrapper du tableau pour scroll vertical */
 .table-wrapper {
     width: 100%;
     overflow-y: auto;
     max-height: 220px;
 }
 
-/* Tableau principal */
 #event {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* toutes les colonnes mêmes tailles */
+    table-layout: fixed;
     font-size: 0.82rem;
 }
 
-/* En-tête */
 #event thead th {
     background: #eef2ff;
     color: #182848;
@@ -218,7 +203,6 @@ html, body {
     white-space: nowrap;
 }
 
-/* Corps */
 #event tbody td {
     padding: 6px 8px;
     text-align: center;
@@ -228,7 +212,6 @@ html, body {
     white-space: nowrap;
 }
 
-/* Lignes alternées */
 #event tbody tr:nth-child(even) {
     background: #f9f9f9;
 }
@@ -237,7 +220,6 @@ html, body {
     background: #eef2ff;
 }
 
-/* Boutons */
 #event button {
     background: #4b6cb7;
     border: none;
@@ -253,7 +235,6 @@ html, body {
     background: #3556a5;
 }
 
-/* Scrollbar */
 .table-wrapper::-webkit-scrollbar {
     width: 8px;
 }
@@ -262,5 +243,3 @@ html, body {
     background: #4b6cb7;
     border-radius: 8px;
 }
-
-
