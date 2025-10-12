@@ -6,43 +6,38 @@ const { ipcRenderer } = require("electron")
 const result = document.getElementById('result');
 
 let events: Events[] = [];
-let event: Events;
 let eventId: number;
+let date = new Date();
 
-let date = new Date()
-date.setMonth(7)
-
-export function displayAllEvents(){
+export function displayAllEvents() {
     getAllEvents().then((data: Events[]) => {
         events = [...data]
-        if(result){
+        if(result) {
             result.innerHTML = "";
-            for(let i in events){
+            for(let i in events) {
                 let ligne = document.createElement("tr")
                 let caseId = document.createElement("td")
                 let caseDate_deb = document.createElement("td")
                 let caseDate_fin = document.createElement("td")
                 let caseTitre = document.createElement("td")
-                let caseLocation = document.createElement("td")
+                let caseLocalisation = document.createElement("td")
                 let caseCategorie = document.createElement("td")
                 let caseStatut = document.createElement("td")
                 let caseDescription = document.createElement("td")
-                let caseTransparence = document.createElement("td")
                 let caseNbMaj = document.createElement("td")
                 let details = document.createElement("td")
                 let detailButton = document.createElement("button");
 
                 let idEnCours = events[i].id
-                caseId.innerHTML = idEnCours.toString()
-
-                caseDate_deb.innerHTML = events[i].date_deb.toString()
-                caseDate_fin.innerHTML = events[i].date_fin.toString()
+                caseId.innerHTML = idEnCours ? idEnCours.toString() : "";
+                
+                caseDate_deb.innerHTML = formatDateFR(events[i].date_deb)
+                caseDate_fin.innerHTML = formatDateFR(events[i].date_fin)
                 caseTitre.innerHTML = events[i].titre
-                caseLocation.innerHTML = events[i].location
+                caseLocalisation.innerHTML = events[i].localisation
                 caseCategorie.innerHTML = events[i].categorie
                 caseStatut.innerHTML = events[i].statut
                 caseDescription.innerHTML = events[i].description
-                caseTransparence.innerHTML = events[i].transparence
                 caseNbMaj.innerHTML = events[i].nbMaj.toString()
                 detailButton.innerHTML = "Info"
 
@@ -52,16 +47,15 @@ export function displayAllEvents(){
                 ligne.appendChild(caseDate_deb)
                 ligne.appendChild(caseDate_fin)
                 ligne.appendChild(caseTitre)
-                ligne.appendChild(caseLocation)
+                ligne.appendChild(caseLocalisation)
                 ligne.appendChild(caseCategorie)
                 ligne.appendChild(caseStatut)
                 ligne.appendChild(caseDescription)
-                ligne.appendChild(caseTransparence)
                 ligne.appendChild(caseNbMaj)
                 ligne.appendChild(details)
                 result.appendChild(ligne)
 
-                viewEventDetails(detailButton, idEnCours)
+                viewEventDetails(detailButton, idEnCours ? idEnCours : 0)
             }
         }
 
@@ -74,19 +68,32 @@ export function displayAllEvents(){
     })
 }
 
-export function viewEventDetails(detailButton: HTMLElement, id: number){
-    detailButton.addEventListener('click', (e) => {
+export function formatDateFR(dateValue: Date) {
+    const date = new Date(dateValue);
+
+    return date.toLocaleString('fr-FR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    }).replace(',', ' à');
+}
+
+
+export function viewEventDetails(detailButton: HTMLElement, id: number) {
+    detailButton.addEventListener('click', (clickEvent) => {
         eventId = id;
         
-        e.preventDefault()
+        clickEvent.preventDefault()
         ipcRenderer.send('activate', eventId)
     })
 }
 
-ipcRenderer.on('editEvent', function (event: Event, events: Events) {
-    console.log(events);
-    
-})
+export function refreshCalendar(event: MouseEvent, edit: boolean) {
+    event.preventDefault();
+    ipcRenderer.send('refresh', edit)
+}
 
 displayAllEvents()
 

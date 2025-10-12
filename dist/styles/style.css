@@ -1,0 +1,263 @@
+/* ========== BASE ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+html, body {
+    width: 800px;
+    height: 600px;
+    background: #eef1f5;
+    color: #2c3e50;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ========== CALENDRIER ========== */
+#calendar {
+    width: 760px;
+    height: 320px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- HEADER DU CALENDRIER --- */
+#calendarHeader {
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    position: relative;
+}
+
+#calendarHeader h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* --- Sélecteur de mois/année --- */
+.selectDate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.choosenDate {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #f0f0f0;
+}
+
+.selectDate button {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.selectDate button:hover {
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+
+/* --- CORPS DU CALENDRIER --- */
+#calendarBody {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 4px;
+    padding: 8px;
+}
+
+/* --- Cases du calendrier --- */
+.caseActive, .caseInactive {
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+
+/* Cases actives */
+.caseActive {
+    background: #f9fbff;
+    border: 1px solid #dce3f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.caseActive:hover {
+    background: #e7eeff;
+    transform: scale(1.03);
+}
+
+/* Cases grises (autres mois) */
+.caseInactive {
+    background: #f2f2f2;
+    border: 1px solid #e0e0e0;
+    color: #aaa;
+}
+
+/* --- Jour actuel --- */
+.caseActive.today {
+    background: #c6d6ff;
+    border: 2px solid #4b6cb7;
+    position: relative;
+}
+
+.caseActive.today::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: #4b6cb7;
+    border-radius: 50%;
+}
+
+/* --- Événements dans les cases --- */
+.eventDébut, .eventFinSet {
+    width: 100%;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    padding: 2px 3px;
+    margin-top: 2px;
+    word-break: break-word;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+/* Début d'événement */
+.eventDébut {
+    background: #b0d4ff;
+    color: #0f2f5d;
+}
+
+/* Fin d'événement */
+.eventFinSet {
+    background: #ffd1a4;
+    color: #5a2900;
+}
+
+/* Hover sur événements */
+.eventDébut:hover,
+.eventFinSet:hover {
+    filter: brightness(0.95);
+}
+
+/* ================= TABLEAU DES ÉVÉNEMENTS ================= */
+/* Container pour le scroll du corps uniquement */
+#eventContainer {
+    width: 760px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#eventContainer h2 {
+    background: #4b6cb7;
+    color: #fff;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Wrapper du tableau pour scroll vertical */
+.table-wrapper {
+    width: 100%;
+    overflow-y: auto;
+    max-height: 220px;
+}
+
+/* Tableau principal */
+#event {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* toutes les colonnes mêmes tailles */
+    font-size: 0.82rem;
+}
+
+/* En-tête */
+#event thead th {
+    background: #eef2ff;
+    color: #182848;
+    font-weight: 600;
+    padding: 6px 8px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Corps */
+#event tbody td {
+    padding: 6px 8px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Lignes alternées */
+#event tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+#event tbody tr:hover {
+    background: #eef2ff;
+}
+
+/* Boutons */
+#event button {
+    background: #4b6cb7;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s ease;
+}
+
+#event button:hover {
+    background: #3556a5;
+}
+
+/* Scrollbar */
+.table-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #4b6cb7;
+    border-radius: 8px;
+}
+
+

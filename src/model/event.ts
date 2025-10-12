@@ -9,7 +9,7 @@ let connection = mysql.createConnection({
     database: 'calendrier'
 });
 
-export function getAllEvents() {
+export async function getAllEvents() {
         return new Promise<Events[]>((result, rej) => {
             connection.query('SELECT * FROM event',(error: Error, respons: Events[]) => {
                 if (error){
@@ -36,15 +36,14 @@ export function getEventById(id: number){
 export function editEventById(editEvent: Events){
     
     return new Promise<Events[]>((result, rej) => {
-        connection.query("UPDATE event SET date_deb=?,date_fin=?,titre=?,location=?,categorie=?,statut=?,description=?,transparence=?,nbMaj=? WHERE id=?", [
-            editEvent.date_deb.getFullYear()+'/'+editEvent.date_deb.getMonth()+'/'+editEvent.date_deb.getDate()+' '+editEvent.date_deb.toLocaleTimeString(),
-            editEvent.date_fin.getFullYear()+'/'+editEvent.date_fin.getMonth()+'/'+editEvent.date_fin.getDate()+' '+editEvent.date_fin.toLocaleTimeString(),
+        connection.query("UPDATE event SET date_deb=?,date_fin=?,titre=?,localisation=?,categorie=?,statut=?,description=?,nbMaj=? WHERE id=?", [
+            editEvent.date_deb,
+            editEvent.date_fin,
             editEvent.titre,
-            editEvent.location,
+            editEvent.localisation,
             editEvent.categorie,
             editEvent.statut,
             editEvent.description,
-            editEvent.transparence,
             editEvent.nbMaj,
             editEvent.id], (error: Error, respons: Events[]) => {
             if (error){
@@ -57,18 +56,16 @@ export function editEventById(editEvent: Events){
     })
 }
 
-export function addEvent(addEvent: Events){
+export async function addEvent(addEvent: Events) {
     return new Promise<Events[]>((result, rej) => {
-        connection.query("INSERT INTO event (id,date_deb, date_fin,titre,location,categorie,statut,description,transparence,nbMaj) VALUES (?,?,?,?,?,?,?,?,?,?)", [
-            addEvent.id,
-            addEvent.date_deb.getFullYear()+'/'+addEvent.date_deb.getMonth()+'/'+addEvent.date_deb.getDate()+' '+addEvent.date_deb.toLocaleTimeString(),
-            addEvent.date_fin.getFullYear()+'/'+addEvent.date_fin.getMonth()+'/'+addEvent.date_fin.getDate()+' '+addEvent.date_fin.toLocaleTimeString(),
+        connection.query("INSERT INTO event (date_deb, date_fin, titre, localisation, categorie, statut, description, nbMaj) VALUES (?,?,?,?,?,?,?,?)", [
+            addEvent.date_deb,
+            addEvent.date_fin,
             addEvent.titre,
-            addEvent.location,
+            addEvent.localisation,
             addEvent.categorie,
             addEvent.statut,
             addEvent.description,
-            addEvent.transparence,
             addEvent.nbMaj], (error: Error, respons: Events[]) => {
             if (error){
                 rej(error)

@@ -4,6 +4,19 @@ let childWindow: typeof BrowserWindow | null
 let detailsWindow: typeof BrowserWindow | null
 
 let windowMain;
+
+interface Events {
+    id?: number;
+    date_deb: Date;
+    date_fin: Date;
+    titre: string;
+    localisation: string;
+    categorie: string;
+    statut: string;
+    description: string;
+    nbMaj: number;
+}
+
 const createMainWindow = () => {
  mainWindow = new BrowserWindow({
         width: 800,
@@ -13,7 +26,7 @@ const createMainWindow = () => {
             contextIsolation: false
         }
     })
-    mainWindow.loadFile('./dist/index.html')
+    mainWindow.loadFile('./dist/html/index.html')
 }
 
 const createChildWindow = (filePath: string) => {
@@ -39,27 +52,26 @@ app.whenReady().then(() => {
 })
 
 ipcMain.on('activate', function (event: Event, message: number) {
-    createChildWindow('./dist/event.html')
+    createChildWindow('./dist/html/singleEvent.html')
     detailsWindow = childWindow
-        detailsWindow.once('show', function(){
-            detailsWindow.send('activate', message);
-        })
-        detailsWindow.once('ready-to-show', ()=>{
-            detailsWindow.show()
-        })
-        
+    detailsWindow.once('show', function(){
+        detailsWindow.send('activate', message);
+    })
+    detailsWindow.once('ready-to-show', ()=>{
+        detailsWindow.show()
+    })
 })
 
-ipcMain.on('formWindow', function (event: Event, events: any) {
-    createChildWindow('./dist/eventForm.html')
+ipcMain.on('formWindow', function (event: Event, events: Events[]) {
+    createChildWindow('./dist/html/eventForm.html');
 
-        childWindow.once('show', function(){
-            childWindow.send('activate', events);
-        })
-        childWindow.once('ready-to-show', ()=>{
-            childWindow.show()
-        })
-        
+    childWindow.once('show', function() {
+        childWindow.send('activate', events);
+    });
+
+    childWindow.once('ready-to-show', ()=> {
+        childWindow.show();
+    });
 })
 
 const template = [
@@ -69,13 +81,14 @@ const template = [
             {
                 label: "Evènement",
                 click: () => {
-                    createChildWindow('./dist/eventForm.html')
+                    createChildWindow('./dist/html/eventForm.html')
                     childWindow.once('show', function(){
                         childWindow.send('activate');
-                    })
+                    });
+
                     childWindow.once('ready-to-show', ()=>{
                         childWindow.show()
-                    })
+                    });
                 }
             },
             {
@@ -95,7 +108,7 @@ ipcMain.on('refresh', function(event: Event, edit: boolean){
     if (edit) {
         detailsWindow.close()
     }
-    mainWindow.loadFile('./dist/index.html')
+    mainWindow.loadFile('./dist/html/index.html')
 })
 
 const menu = Menu.buildFromTemplate(template)

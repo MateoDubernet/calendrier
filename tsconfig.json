@@ -1,18 +1,17 @@
 {
-    "compilerOptions": {
-      "outDir": "dist",
-      "watch": false,
-      "target": "es2017",
-      "noEmitOnError": true,
-      "strict": true,
-      "experimentalDecorators": true,
-      "module": "ES2015",
-      "moduleResolution": "node",
-      "lib": ["dom", "ES2015"],
-      "baseUrl": "./",
-      "allowJs": true,
-      "sourceMap": true,
-    },
-    "include": ["./src", "./test", "./mocks"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
-  }
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es2017",
+    "noEmitOnError": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "lib": ["dom", "ES2015"],
+    "baseUrl": "./",
+    "allowJs": true,
+    "sourceMap": true,
+  },
+  "include": ["./src", "./test", "./mocks"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

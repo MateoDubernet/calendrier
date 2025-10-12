@@ -5,7 +5,6 @@ const calendar = document.getElementById("calendar");
 const calendarBody = document.getElementById("calendarBody");
 const calendarHeader = document.getElementById("calendarHeader");
 
-const selectDate = document.createElement("div");
 const upperButton = document.createElement("button");
 const lowerButton = document.createElement("button");
 
@@ -17,7 +16,6 @@ let choosenYear: number
 
 export function generateCalendarBody(date: Date, events?: Events[]) {
     if(events) allEvents = events
-    console.log(allEvents);
     
     let premierJourDuMois = new Date(date)
     premierJourDuMois.setDate(1)
@@ -71,6 +69,7 @@ function ajouteCaseActive(numéroJour: number, events?: Events[]) {
         
         if (events) {
             events.forEach((event)=>{
+                const eventId = event.id ? event.id : 0;
                 if (event.date_deb.getDate() == numéroJour && event.date_deb.getMonth() == choosenMonth && event.date_deb.getFullYear() == choosenYear) {
                     let eventDebutSet = document.createElement("div")
                     eventDebutSet.innerHTML = 'Début :' + ' ' + event.titre + ' ' + event.date_deb.getHours() + 'h' + event.date_deb.getMinutes()
@@ -78,7 +77,7 @@ function ajouteCaseActive(numéroJour: number, events?: Events[]) {
                     eventDebutSet.className = 'eventDébut'
 
                     caseActive.appendChild(eventDebutSet)
-                    viewEventDetails(eventDebutSet, event.id)
+                    viewEventDetails(eventDebutSet, eventId)
                 }
 
                 if (event.date_fin.getDate() == numéroJour && event.date_fin.getMonth() == choosenMonth && event.date_fin.getFullYear() == choosenYear) {
@@ -88,11 +87,16 @@ function ajouteCaseActive(numéroJour: number, events?: Events[]) {
                     eventFinSet.className = 'eventFinSet'
                     
                     caseActive.appendChild(eventFinSet)
-                    viewEventDetails(eventFinSet, event.id)
+                    viewEventDetails(eventFinSet, eventId)
                 }
                 
             })
         }
+
+        if (numéroJour === new Date().getDate() && choosenMonth === new Date().getMonth() && choosenYear === new Date().getFullYear()) {
+            caseActive.classList.add("today");
+        }
+
         casesActives.push(caseActive)
     }
 }
@@ -106,24 +110,34 @@ function deleteCaseActive(){
     casesActives = [];
 }
 
-export function calendarHeaderComponent(date: Date){
-    let selectMonth = date.toLocaleString('default', {month: 'long'})
-    let year = date.toLocaleString('default', {year: 'numeric'})
+export function calendarHeaderComponent(date: Date) {
+    if (!calendar || !calendarHeader) return;
 
-    if (calendar && calendarHeader) {
-        const choosenDate = document.createElement("p");
-        choosenDate.innerHTML = selectMonth + ' ' + year
-        lowerButton.innerHTML = "<"
-        upperButton.innerHTML = ">"
-
-        choosenDate.className = 'choosenDate'
-        selectDate.className = 'selectDate'
-
-        selectDate.appendChild(lowerButton)
-        selectDate.appendChild(choosenDate)
-        selectDate.appendChild(upperButton)
-        calendarHeader.appendChild(selectDate)
+    const oldSelectDate = calendarHeader.querySelector('.selectDate');
+    if (oldSelectDate) {
+        calendarHeader.removeChild(oldSelectDate);
     }
+
+    const selectDate = document.createElement("div");
+
+    let selectMonth = date.toLocaleString('default', { month: 'long' });
+    let year = date.toLocaleString('default', { year: 'numeric' });
+
+    const choosenDate = document.createElement("p");
+    choosenDate.innerHTML = `${selectMonth} ${year}`;
+    choosenDate.className = 'choosenDate';
+
+    lowerButton.innerHTML = "<";
+    upperButton.innerHTML = ">";
+
+    selectDate.className = 'selectDate';
+    choosenDate.className = 'choosenDate'
+
+    selectDate.appendChild(lowerButton);
+    selectDate.appendChild(choosenDate);
+    selectDate.appendChild(upperButton);
+
+    calendarHeader.appendChild(selectDate);
 }
 
 export function changeCalendarDate(date: Date){

@@ -4,7 +4,8 @@
   "description": "page qui affiche le calendrier mois par mois",
   "main": "./dist/main.js",
   "scripts": {
-    "start": "tsc && electron .",
+    "build": "tsc && xcopy src\\html dist\\html /s /y && xcopy src\\styles dist\\styles /s /y",
+    "start": "npm run build && electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

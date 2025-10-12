@@ -1,86 +1,74 @@
 const { ipcRenderer } = require("electron")
-import { displayAllEvents } from "../renderer.js";
-import { displayEvent } from "./singleEvent.js";
+import { refreshCalendar } from "../renderer.js";
 import { Events } from "../interfaces/events.js";
-import { addEvent, editEventById, getAllEvents } from "./event.js";
+import { addEvent, editEventById } from "./event.js";
 
 const date_deb = document.getElementById('date_deb') as HTMLInputElement 
 const date_fin = document.getElementById('date_fin') as HTMLInputElement
 const titre = document.getElementById('titre') as HTMLInputElement
-const location = document.getElementById('location') as HTMLInputElement
+const localisation = document.getElementById('localisation') as HTMLInputElement
 const categorie = document.getElementById('categorie') as HTMLInputElement
 const statut = document.getElementById('statut') as HTMLInputElement
 const description = document.getElementById('description') as HTMLInputElement
-const transparence = document.getElementById('transparence') as HTMLInputElement
 const submit = document.getElementById('submit')
 
-let eventDatas: Events[] = [];
 let formValue: Events;
-let lastEventId: number;
-let edit: boolean;
 
-function setFormValue(){    
-    for(let i in eventDatas){
+function setFormValue(eventDatas: Events[]) {    
+    for(let i in eventDatas) {
         titre.value = eventDatas[i].titre
-        location.value = eventDatas[i].location
+        localisation.value = eventDatas[i].localisation
         categorie.value = eventDatas[i].categorie
         statut.value = eventDatas[i].statut
         description.value = eventDatas[i].description
-        transparence.value = eventDatas[i].transparence
         
         formValue = eventDatas[i]
     }
 }
 
-function editEvent(){
+function editEvent() {
     if(submit)
-        submit.addEventListener('click', (e) => {
+        submit.addEventListener('click', (clickEvent) => {
             let form = document.getElementById('eventForm') as HTMLFormElement
             
-            if (form.checkValidity() == true){
-                let dateDeb = date_deb.value.replace('T', ' ');
-                let dateFin = date_fin.value.replace('T', ' ');
-
-                formValue.date_deb = new Date(dateDeb)
-                formValue.date_fin = new Date(dateFin)
+            if (form.checkValidity() == true) {
+                formValue.date_deb = new Date(date_deb.value)
+                formValue.date_fin = new Date(date_fin.value)
                 formValue.titre = titre.value;
-                formValue.location = location.value;
+                formValue.localisation = localisation.value;
                 formValue.categorie = categorie.value;
                 formValue.statut = statut.value;
                 formValue.description = description.value;
-                formValue.transparence = transparence.value;
                 formValue.nbMaj = formValue.nbMaj + 1;
 
-                editEventById(formValue)
-                refreshCalendar(e)
+                editEventById(formValue).then(() => {
+                    refreshCalendar(clickEvent, true)
+                }).catch(err => {
+                    throw new Error(err.message)
+                })
             }
         })
 }
 
-function addNewEvent(){
+function addNewEvent() {
     if(submit)
-    submit.addEventListener('click', (e) => {
+    submit.addEventListener('click', (clickEvent) => {
         let form = document.getElementById('eventForm') as HTMLFormElement
 
-        if (form.checkValidity() == true){
-            let dateDeb = date_deb.value.replace('T', ' ')
-            let dateFin = date_fin.value.replace('T', ' ')
-            
+        if (form.checkValidity() == true) {
             formValue = {
-                "id": lastEventId + 1,
-                "date_deb": new Date(dateDeb),
-                "date_fin": new Date(dateFin),
+                "date_deb": new Date(date_deb.value),
+                "date_fin": new Date(date_fin.value),
                 "titre": titre.value,
-                "location": location.value,
+                "localisation": localisation.value,
                 "categorie": categorie.value,
                 "statut": statut.value,
                 "description": description.value,
-                "transparence": transparence.value,
                 "nbMaj": 0,
             }
             
-            addEvent(formValue).then((data: Events[]) => {
-                refreshCalendar(e)
+            addEvent(formValue).then(() => {
+                refreshCalendar(clickEvent, false)
             }).catch(err => {
                 throw new Error(err.message)
             })
@@ -88,27 +76,12 @@ function addNewEvent(){
     })
 }
 
-function refreshCalendar(e: MouseEvent){
-    e.preventDefault();
-    ipcRenderer.send('refresh', edit)
-}
-
 ipcRenderer.on('activate', (event: any, events: Events[]) => {
-    if (events) {
-        eventDatas = events
-        edit = true;
-        setFormValue()
-        editEvent()
+    if (events && events.length > 0) {
+        setFormValue(events);
+        console.log(events);
+        editEvent();
     }else{
-        edit = false
-        getAllEvents().then((data: Events[]) => {
-            events = [...data]
-            for(let i in events){
-                lastEventId = events[i].id
-            }
-        })
-
-        addNewEvent()
+        addNewEvent();
     }
 })
-
