@@ -1,5 +1,5 @@
-import { Events } from 'src/interfaces/events';
-import { viewEventDetails } from '../renderer.js';
+import { viewEventInfo } from '../utils/utils.js';
+import { Events } from '../model/event.js';
 
 const calendar = document.getElementById("calendar");
 const calendarBody = document.getElementById("calendarBody");
@@ -12,101 +12,101 @@ let casesActives: HTMLDivElement[] = [];
 let casesGrises: HTMLDivElement[] = [];
 let allEvents: Events[] = [];
 let choosenMonth: number;
-let choosenYear: number
+let choosenYear: number;
 
 export function generateCalendarBody(date: Date, events?: Events[]) {
-    if(events) allEvents = events
+    if(events) allEvents = events;
     
-    let premierJourDuMois = new Date(date)
-    premierJourDuMois.setDate(1)
+    let premierJourDuMois = new Date(date);
+    premierJourDuMois.setDate(1);
 
-    let numPremierJourDuMois = premierJourDuMois.getDay()
-    if (numPremierJourDuMois == 0) numPremierJourDuMois = 7
+    let numPremierJourDuMois = premierJourDuMois.getDay();
+    if (numPremierJourDuMois == 0) numPremierJourDuMois = 7;
 
     choosenMonth = date.getMonth();
     choosenYear = date.getFullYear();
     let nombreDeJourMois = new Date(date.getFullYear(), choosenMonth + 1, 0);
     
-    let numNombreJourDuMois = nombreDeJourMois.getDate()
-    let numDernierJourDuMois = nombreDeJourMois.getDay()
-    if (numDernierJourDuMois == 0) numDernierJourDuMois = 7
+    let numNombreJourDuMois = nombreDeJourMois.getDate();
+    let numDernierJourDuMois = nombreDeJourMois.getDay();
+    if (numDernierJourDuMois == 0) numDernierJourDuMois = 7;
 
     for (let i = 1; i < numPremierJourDuMois; i++) {
-        ajouteCaseGrise()
+        ajouteCaseGrise();
     }
     for (let i = 1; i <= numNombreJourDuMois; i++) {
-        ajouteCaseActive(i, allEvents)
+        ajouteCaseActive(i, allEvents);
     }
     for (let i = numDernierJourDuMois; i < 7; i++) {
-        ajouteCaseGrise()
+        ajouteCaseGrise();
     }
 }
 
 function ajouteCaseGrise() {
-    let caseGrise = document.createElement("div")
-    caseGrise.className = "caseInactive"
+    let caseGrise = document.createElement("div");
+    caseGrise.className = "caseInactive";
     if (calendarBody) {
-        calendarBody.appendChild(caseGrise)
-        casesGrises.push(caseGrise)
+        calendarBody.appendChild(caseGrise);
+        casesGrises.push(caseGrise);
     }
 }
 
-function deleteCaseGrise(){
+function deleteCaseGrise() {
     casesGrises.forEach((cases) =>  {
         if (calendarBody) {
-            calendarBody.removeChild(cases)
+            calendarBody.removeChild(cases);
         }
-    })
+    });
+
     casesGrises = [];
 }
 
 function ajouteCaseActive(numéroJour: number, events?: Events[]) {
-    let caseActive = document.createElement("div")
-    caseActive.className = "caseActive"
-    caseActive.innerHTML = numéroJour.toString()
+    let caseActive = document.createElement("div");
+    caseActive.className = "caseActive";
+    caseActive.innerHTML = numéroJour.toString();
+
     if (calendarBody) {
-        calendarBody.appendChild(caseActive)
+        calendarBody.appendChild(caseActive);
         
         if (events) {
-            events.forEach((event)=>{
+            events.forEach((event)=> {
                 const eventId = event.id ? event.id : 0;
                 if (event.date_deb.getDate() == numéroJour && event.date_deb.getMonth() == choosenMonth && event.date_deb.getFullYear() == choosenYear) {
-                    let eventDebutSet = document.createElement("div")
-                    eventDebutSet.innerHTML = 'Début :' + ' ' + event.titre + ' ' + event.date_deb.getHours() + 'h' + event.date_deb.getMinutes()
-                    
-                    eventDebutSet.className = 'eventDébut'
+                    let eventDebutSet = document.createElement("div");
+                    eventDebutSet.innerHTML = 'Début :' + ' ' + event.titre + ' ' + event.date_deb.getHours() + 'h' + event.date_deb.getMinutes();
+                    eventDebutSet.className = 'eventDébut';
 
-                    caseActive.appendChild(eventDebutSet)
-                    viewEventDetails(eventDebutSet, eventId)
+                    caseActive.appendChild(eventDebutSet);
+                    viewEventInfo(eventDebutSet, eventId);
                 }
 
                 if (event.date_fin.getDate() == numéroJour && event.date_fin.getMonth() == choosenMonth && event.date_fin.getFullYear() == choosenYear) {
-                    let eventFinSet = document.createElement("div")
-                    eventFinSet.innerHTML = 'Fin :' + ' ' + event.titre + ' ' + event.date_fin.getHours() + 'h' + event.date_fin.getMinutes()
+                    let eventFinSet = document.createElement("div");
+                    eventFinSet.innerHTML = 'Fin :' + ' ' + event.titre + ' ' + event.date_fin.getHours() + 'h' + event.date_fin.getMinutes();
+                    eventFinSet.className = 'eventFinSet';
                     
-                    eventFinSet.className = 'eventFinSet'
-                    
-                    caseActive.appendChild(eventFinSet)
-                    viewEventDetails(eventFinSet, eventId)
+                    caseActive.appendChild(eventFinSet);
+                    viewEventInfo(eventFinSet, eventId);
                 }
-                
-            })
+            });
         }
 
         if (numéroJour === new Date().getDate() && choosenMonth === new Date().getMonth() && choosenYear === new Date().getFullYear()) {
             caseActive.classList.add("today");
         }
 
-        casesActives.push(caseActive)
+        casesActives.push(caseActive);
     }
 }
 
-function deleteCaseActive(){
+function deleteCaseActive() {
     casesActives.forEach((cases) =>  {
         if (calendarBody) {
-            calendarBody.removeChild(cases)
+            calendarBody.removeChild(cases);
         }
     })
+
     casesActives = [];
 }
 
@@ -140,25 +140,25 @@ export function calendarHeaderComponent(date: Date) {
     calendarHeader.appendChild(selectDate);
 }
 
-export function changeCalendarDate(date: Date){
+export function changeCalendarDate(date: Date) {
     upperButton.addEventListener('click', () => {
-        date.setMonth(date.getMonth() + 1) 
+        date.setMonth(date.getMonth() + 1);
         
         deleteCaseActive();
         deleteCaseGrise();
 
-        generateCalendarBody(date)
-        calendarHeaderComponent(date)
+        generateCalendarBody(date);
+        calendarHeaderComponent(date);
     });
 
     lowerButton.addEventListener('click', () => {
-        date.setMonth(date.getMonth() - 1)
+        date.setMonth(date.getMonth() - 1);
 
         deleteCaseActive();
         deleteCaseGrise();
           
-        generateCalendarBody(date)
-        calendarHeaderComponent(date)
+        generateCalendarBody(date);
+        calendarHeaderComponent(date);
     });
 }
 

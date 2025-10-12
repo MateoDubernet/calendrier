@@ -1,7 +1,7 @@
 const {app, BrowserWindow, ipcMain, Menu}  = require('electron');
-let mainWindow: typeof BrowserWindow | null
-let childWindow: typeof BrowserWindow | null
-let detailsWindow: typeof BrowserWindow | null
+let mainWindow: typeof BrowserWindow | null;
+let childWindow: typeof BrowserWindow | null;
+let detailsWindow: typeof BrowserWindow | null;
 
 let windowMain;
 
@@ -25,8 +25,9 @@ const createMainWindow = () => {
             nodeIntegration: true,
             contextIsolation: false
         }
-    })
-    mainWindow.loadFile('./dist/html/index.html')
+    });
+
+    mainWindow.loadFile('./dist/html/index.html');
 }
 
 const createChildWindow = (filePath: string) => {
@@ -39,27 +40,30 @@ const createChildWindow = (filePath: string) => {
             nodeIntegration: true,
             contextIsolation: false,
         }
-    })
-    childWindow.loadFile(filePath)
+    });
+
+    childWindow.loadFile(filePath);
 }
 
 app.whenReady().then(() => {
-    createMainWindow()
+    createMainWindow();
    
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
-    })
+        if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    });
 })
 
 ipcMain.on('activate', function (event: Event, message: number) {
-    createChildWindow('./dist/html/singleEvent.html')
-    detailsWindow = childWindow
-    detailsWindow.once('show', function(){
+    createChildWindow('./dist/html/singleEvent.html');
+    detailsWindow = childWindow;
+
+    detailsWindow.once('show', function() {
         detailsWindow.send('activate', message);
-    })
+    });
+
     detailsWindow.once('ready-to-show', ()=>{
-        detailsWindow.show()
-    })
+        detailsWindow.show();
+    });
 })
 
 ipcMain.on('formWindow', function (event: Event, events: Events[]) {
@@ -72,7 +76,7 @@ ipcMain.on('formWindow', function (event: Event, events: Events[]) {
     childWindow.once('ready-to-show', ()=> {
         childWindow.show();
     });
-})
+});
 
 const template = [
     {
@@ -81,13 +85,13 @@ const template = [
             {
                 label: "Evènement",
                 click: () => {
-                    createChildWindow('./dist/html/eventForm.html')
-                    childWindow.once('show', function(){
+                    createChildWindow('./dist/html/eventForm.html');
+                    childWindow.once('show', function() {
                         childWindow.send('activate');
                     });
 
-                    childWindow.once('ready-to-show', ()=>{
-                        childWindow.show()
+                    childWindow.once('ready-to-show', ()=> {
+                        childWindow.show();
                     });
                 }
             },
@@ -101,18 +105,19 @@ const template = [
         label: "Outils",
         role: "toggleDevTools"
     }
-]
+];
 
-ipcMain.on('refresh', function(event: Event, edit: boolean){
-    childWindow.close()
+ipcMain.on('refresh', function(event: Event, edit: boolean) {
+    childWindow.close();
     if (edit) {
-        detailsWindow.close()
+        detailsWindow.close();
     }
-    mainWindow.loadFile('./dist/html/index.html')
-})
 
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+    mainWindow.loadFile('./dist/html/index.html');
+});
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()

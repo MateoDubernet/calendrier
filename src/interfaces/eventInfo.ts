@@ -1,20 +1,19 @@
-import { Events } from "../interfaces/events.js";
-import { getEventById } from "./event.js";
-import { deleteEvent } from './event.js';
-import { formatDateFR, refreshCalendar } from '../renderer.js';
+import { Events } from "../model/event";
+import { getEventById } from "../database/database.js";
+import { deleteEvent } from '../database/database.js';
+import { formatDateFR, refreshCalendar } from "../utils/utils";
+const { ipcRenderer } = require("electron");
 
-const { ipcRenderer } = require("electron")
-
-const soloEvent = document.getElementById('soloEvent')
-const modifButton = document.getElementById('modifButton')
-const suppButton = document.getElementById('suppButton')
+const soloEvent = document.getElementById('soloEvent');
+const modifButton = document.getElementById('modifButton');
+const suppButton = document.getElementById('suppButton');
 
 let events: Events[] = [];
 let eventId: number;
 
 ipcRenderer.on('activate', (event: Event, id: number) => {
-    eventId = id
-    displayEvent()
+    eventId = id;
+    displayEvent();
 })
 
 export function displayEvent() {
@@ -49,30 +48,31 @@ export function displayEvent() {
                 soloEvent.appendChild(row);
             });
         }
-    })
+    });
 }
 
-function openForm(){
+function openForm() {
     if (modifButton) {
         modifButton.addEventListener('click', (clickEvent) => {            
             clickEvent.preventDefault();
-            ipcRenderer.send('formWindow', events)
-        })
+            ipcRenderer.send('formWindow', events);
+        });
     }
 }
 
-function deleteSelectEvent(){
-    if(suppButton)
-    suppButton.addEventListener('click', (clickEvent) =>{
-        if (window.confirm("Voulez vous vraiment supprimer l'événement ?")) {
-            deleteEvent(eventId).then(() => {
-                refreshCalendar(clickEvent, false)
-            }).catch(err => {
-                throw new Error(err.message)
-            })
-        }
-    })
+function deleteSelectEvent() {
+    if(suppButton) {
+        suppButton.addEventListener('click', (clickEvent) => {
+            if (window.confirm("Voulez vous vraiment supprimer l'événement ?")) {
+                deleteEvent(eventId).then(() => {
+                    refreshCalendar(clickEvent, false);
+                }).catch(err => {
+                    throw new Error(err.message);
+                });
+            }
+        });
+    }
 }
 
-openForm()
-deleteSelectEvent()
+openForm();
+deleteSelectEvent();
