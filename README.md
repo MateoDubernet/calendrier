@@ -1,6 +1,7 @@
 # Calendrier
 
 ## Contexte
+Projet réalisé dans le cadre de mon alternance.
 Ce projet à pour but initial de créer un calendrier pour pouvoir gérer des évènements, avec les différentes fonctionnalités suivantes :
 
 - Afficher un calendrier et pouvoir naviguer dessus
@@ -47,9 +48,3 @@ Exécuter la commande :
 - Lorsque un évènement est créer la page est rechargée et l'évènement s'affiche sur le calendrier à la date de début et de fin indiqué dans le formulaire, et dans le tableau en dessous du calendrier.
 
 - Dans le tableau d'évènement en cliquant sur **Info** une fenêtre s'ouvre pour afficher les détails de l'évènement, à partir de la il est possible de modifier ou supprimer l'évènement.
-
----
-
-## Auteur
-Projet réalisé dans le cadre de mon alternance.
-Développé avec Electron, Node.js et TypeScript.
