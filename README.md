@@ -24,7 +24,6 @@ L'application repose sur les technologies suivante :
 - Node.js et npm installés
 - Electron
 - MySQL
-- Typescript installé globalement
 
 ---
 
@@ -67,6 +66,7 @@ Répondre répertoire pour les deux
 - Dans la barre de navigation il y a deux menus "**Ajouter**" qui ouvre un formulaire pour ajouter un évènement et "**Outil**" pour afficher le devtool.
 - Lorsque un évènement est créer la page est rechargée et l'évènement s'affiche sur le calendrier à la date de début et de fin indiqué dans le formulaire, et dans le tableau en dessous du calendrier.
 - Dans le tableau d'évènement en cliquant sur **Info** une fenêtre s'ouvre pour afficher les détails de l'évènement, à partir de la il est possible de modifier ou supprimer l'évènement.
+
 
 
 
