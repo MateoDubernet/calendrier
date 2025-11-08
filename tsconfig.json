@@ -11,6 +11,7 @@
     "baseUrl": "./",
     "allowJs": true,
     "sourceMap": true,
+    "skipLibCheck": true
   },
   "include": ["./src", "./test", "./mocks"],
   "exclude": ["node_modules", "**/*.spec.ts"]
