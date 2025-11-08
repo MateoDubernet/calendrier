@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^20.0.0"
+    "electron": "^20.0.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@syncfusion/ej2-schedule": "^20.2.40",
