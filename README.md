@@ -54,7 +54,9 @@ Exécuter la commande :
     npm start
 ```
 Une fois lancer il sera demander : Est-ce que dist\html désigne un nom de fichier
-ou un nom de répertoire de la destination ? Et est-ce que dist\styles désigne un nom de fichier
+ou un nom de répertoire de la destination ? 
+et\
+Est-ce que dist\styles désigne un nom de fichier
 ou un nom de répertoire de la destination ?
 
 Répondre répertoire pour les deux
@@ -65,6 +67,7 @@ Répondre répertoire pour les deux
 - Dans la barre de navigation il y a deux menus "**Ajouter**" qui ouvre un formulaire pour ajouter un évènement et "**Outil**" pour afficher le devtool.
 - Lorsque un évènement est créer la page est rechargée et l'évènement s'affiche sur le calendrier à la date de début et de fin indiqué dans le formulaire, et dans le tableau en dessous du calendrier.
 - Dans le tableau d'évènement en cliquant sur **Info** une fenêtre s'ouvre pour afficher les détails de l'évènement, à partir de la il est possible de modifier ou supprimer l'évènement.
+
 
 
 
