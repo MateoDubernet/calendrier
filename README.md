@@ -1,8 +1,6 @@
 # Calendrier
 
-## Contexte
-
-### Description
+## Présentation
 Projet réalisé durant mon alternance dans le cadre d'un devoir maison.
 Ce projet à pour but initial de créer un calendrier pour pouvoir gérer des évènements, avec les différentes fonctionnalités suivantes :
 
@@ -13,7 +11,7 @@ Ce projet à pour but initial de créer un calendrier pour pouvoir gérer des é
 - Consulter un évènement
 - Modifier et supprimer un évènement
 
-L'application repose sur les technologies suivante :
+### Stack Technique
 - **Node.js**
 - **Electron**
 - **TypeScript**
